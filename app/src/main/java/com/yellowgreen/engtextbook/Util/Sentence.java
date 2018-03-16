@@ -2,16 +2,22 @@ package com.yellowgreen.engtextbook.Util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.yellowgreen.engtextbook.Activity.BaseActivity;
 import com.yellowgreen.engtextbook.R;
+
+import java.lang.reflect.Field;
 
 
 /**
@@ -40,6 +46,21 @@ public class Sentence {
             Log.d("문장 : " + i, sentenceArr[i]);
         }
         return sentenceArr;
+    }
+
+    public int getAutoFontSize(ViewGroup parent) {
+        fontDpSize = 35;
+
+//        Log.d("parentWidthDP", TextUtil.pxToDp(1152, BaseActivity.myContext) + "");
+//        Log.d("font/parentWidthDP", 35/TextUtil.pxToDp(1152, BaseActivity.myContext) + "");
+//
+//        float autoSizeRate = 1152f/(float)BaseActivity.myContext.getResources().getDisplayMetrics().widthPixels;
+//        Log.d("autoSizeRate", autoSizeRate + "");
+//
+//        fontDpSize *= autoSizeRate;
+//        Log.d("ReSizeFontSize", fontDpSize + "");
+
+        return fontDpSize;
     }
 
     public LinearLayout[] getTextLayout(String str, int fontDpSize, Context context, ViewGroup parent) {
@@ -214,7 +235,7 @@ public class Sentence {
         Log.d("width/parent", textViewTotalWidth / parent.getWidth() + "");
 
         LinearLayout[] linearTextBox;
-        linearTextBox = new LinearLayout[textViewTotalWidth / parent.getWidth() + 1];
+        linearTextBox = new LinearLayout[textViewTotalWidth / parent.getWidth() + 2];
 
         for (int i = 0; i < linearTextBox.length; i++) {
             linearTextBox[i] = new LinearLayout(context);
@@ -271,6 +292,8 @@ public class Sentence {
         pickers.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         pickers.getMeasuredWidth();
 
+        setNumberPickerTextColor(pickers, Color.BLUE);
+
         TextView[] sentenceTextArr = new TextView[sentenceArr.length];
         for (int i = 0; i < sentenceTextArr.length; i++) {
             sentenceTextArr[i] = new TextView(context);
@@ -286,6 +309,7 @@ public class Sentence {
             sentenceTextArr[i].setLayoutParams(params);
             sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
             sentenceTextArr[i].setSingleLine();
+            sentenceTextArr[i].setGravity(Gravity.CENTER_VERTICAL);
 
             if(i == (colorIndex -1)) {
                 try{
@@ -295,7 +319,7 @@ public class Sentence {
                     e.printStackTrace();
                 }
 
-            } else sentenceTextArr[i].setTextColor(Color.WHITE);
+            } else sentenceTextArr[i].setTextColor(Color.BLACK);
 
             //부모 뷰에서 onDraw 하기 전에 길이를 알아오기 위함
             sentenceTextArr[i].measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -313,7 +337,10 @@ public class Sentence {
             linearTextBox[i] = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.setMargins(0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context));
+
             linearTextBox[i].setLayoutParams(params);
+            linearTextBox[i].setVerticalGravity(Gravity.CENTER_VERTICAL);
+            linearTextBox[i].setGravity(Gravity.CENTER_VERTICAL);
             linearTextBox[i].setOrientation(LinearLayout.HORIZONTAL);
         }
 
@@ -353,11 +380,40 @@ public class Sentence {
         fontDpSize = size;
     }
 
-
-
     //폰트 사이즈에 비례함 기본값 : 1/4
     public void setFontSpace(float sp) {
         space = sp;
+    }
+
+    public static boolean setNumberPickerTextColor(NumberPicker numberPicker, int color)
+    {
+        final int count = numberPicker.getChildCount();
+        for(int i = 0; i < count; i++){
+            View child = numberPicker.getChildAt(i);
+            if(child instanceof EditText){
+                try{
+                    Field selectorWheelPaintField = numberPicker.getClass()
+                            .getDeclaredField("mSelectorWheelPaint");
+                    selectorWheelPaintField.setAccessible(true);
+                    ((Paint)selectorWheelPaintField.get(numberPicker)).setColor(color);
+                    ((EditText)child).setTextColor(color);
+//                    ((EditText)child).setTypeface(Typeface.DEFAULT_BOLD);
+//                    ((EditText)child).setTextSize(TextUtil.dpToPixel(35, BaseActivity.myContext));
+                    numberPicker.invalidate();
+                    return true;
+                }
+                catch(NoSuchFieldException e){
+                    Log.w("setNumberPickerTextColor", e);
+                }
+                catch(IllegalAccessException e){
+                    Log.w("setNumberPickerTextColor", e);
+                }
+                catch(IllegalArgumentException e){
+                    Log.w("setNumberPickerTextColor", e);
+                }
+            }
+        }
+        return false;
     }
 
 }

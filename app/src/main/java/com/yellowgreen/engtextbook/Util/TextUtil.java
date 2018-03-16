@@ -16,4 +16,8 @@ public class TextUtil {
 
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
+
+    public static float pxToDp(int px, Context context) {
+        return px / (context.getResources().getDisplayMetrics().densityDpi / 160f);
+    }
 }
