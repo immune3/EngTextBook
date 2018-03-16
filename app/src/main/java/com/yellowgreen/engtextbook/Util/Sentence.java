@@ -116,7 +116,8 @@ public class Sentence {
 
             //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
             // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
-            if (textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
+            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
             } else {
                 // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
@@ -179,7 +180,8 @@ public class Sentence {
         while (textViewCount < sentenceTextArr.length) {
 
             textViewSum += sentenceTextArr[textViewCount].getMeasuredWidth();
-            if (textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
+            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
             } else {
                 textViewSum = 0;
@@ -255,7 +257,8 @@ public class Sentence {
 
             //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
             // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
-            if (textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
+            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
             } else {
                 // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
