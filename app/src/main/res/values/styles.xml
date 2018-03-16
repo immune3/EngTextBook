@@ -9,7 +9,7 @@
     </style>
 
     <style name="NumberPickerText">
-        <item name="android:textSize">35dp</item>
+        <item name="android:textSize">20pt</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:solidColor">@color/colorAccent</item>
     </style>

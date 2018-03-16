@@ -28,7 +28,7 @@ public class Sentence {
 
     private String[] sentenceArr;
     private int fontDpSize = 20;
-    private float space = 1/4f; // 글자 크기 dp의 4등분을 공백으로 사용한다는 뜻
+    private float space = 1/2f; // 글자 크기 dp의 2등분을 공백으로 사용한다는 뜻
 
     public Sentence(String str) {
         sentenceArr = str.split(" ");
@@ -79,7 +79,7 @@ public class Sentence {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            params.setMargins(TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0);
+            params.setMargins((int) (fontDpSize * space), 0, (int) (fontDpSize * space), 0);
             sentenceTextArr[i].setLayoutParams(params);
             sentenceTextArr[i].setTextColor(Color.BLACK);
             sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -88,7 +88,7 @@ public class Sentence {
 
             //부모 뷰에서 onDraw 하기 전에 길이를 알아오기 위함
             sentenceTextArr[i].measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            textViewTotalWidth += sentenceTextArr[i].getMeasuredWidth();
+            textViewTotalWidth += (sentenceTextArr[i].getMeasuredWidth() + fontDpSize * space * 2);
         }
 
         Log.d("TextViewTotalWidth", textViewTotalWidth + "");
@@ -101,7 +101,7 @@ public class Sentence {
         for (int i = 0; i < linearTextBox.length; i++) {
             linearTextBox[i] = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context));
+            params.setMargins(0, (int) (fontDpSize * space), 0, (int) (fontDpSize * space));
             linearTextBox[i].setLayoutParams(params);
             linearTextBox[i].setOrientation(LinearLayout.HORIZONTAL);
         }
@@ -116,14 +116,23 @@ public class Sentence {
 
             //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
             // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
-            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
-                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
+            if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - fontDpSize * sentenceTextArr.length * space * 2)) {
+                Log.d("IF", "if");
+
+                Log.d("textViewCount", textViewCount + "");
+                Log.d("sentenceTextArr.length", sentenceTextArr.length + "");
+
+                Log.d("linearCount", linearCount + "");
+                Log.d("linearTextBox.length", linearTextBox.length + "");
+
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
-            } else {
+            } else if(linearCount < linearTextBox.length){
                 // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
+                Log.d("Else if", "else if");
                 textViewSum = 0;
                 linearCount++;
-            }
+            } else break;
 
         }
 
@@ -142,12 +151,13 @@ public class Sentence {
             sentenceTextArr[i] = new TextView(context);
             sentenceTextArr[i].setText(sentenceArr[i]);
             sentenceTextArr[i].setTextSize(TextUtil.dpToPixel(fontDpSize, context));
+            sentenceTextArr[i].setTextSize(35);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            params.setMargins(TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0);
+            params.setMargins((int) (fontDpSize * space), 0, (int) (fontDpSize * space), 0);
             sentenceTextArr[i].setLayoutParams(params);
             sentenceTextArr[i].setTextColor(Color.BLACK);
             sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -156,7 +166,7 @@ public class Sentence {
 
             //부모 뷰에서 onDraw 하기 전에 길이를 알아오기 위함
             sentenceTextArr[i].measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            textViewTotalWidth += sentenceTextArr[i].getMeasuredWidth();
+            textViewTotalWidth += (sentenceTextArr[i].getMeasuredWidth() + fontDpSize * space * 2);
         }
 
         Log.d("TextViewTotalWidth", textViewTotalWidth + "");
@@ -168,7 +178,7 @@ public class Sentence {
         for (int i = 0; i < linearTextBox.length; i++) {
             linearTextBox[i] = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context));
+            params.setMargins(0, (int) (fontDpSize * space), 0, (int) (fontDpSize * space));
             linearTextBox[i].setLayoutParams(params);
             linearTextBox[i].setOrientation(LinearLayout.HORIZONTAL);
         }
@@ -180,13 +190,23 @@ public class Sentence {
         while (textViewCount < sentenceTextArr.length) {
 
             textViewSum += sentenceTextArr[textViewCount].getMeasuredWidth();
-            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
-                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
+            if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - fontDpSize * sentenceTextArr.length * space * 2)) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
+                Log.d("IF", "if");
+
+                Log.d("textViewCount", textViewCount + "");
+                Log.d("sentenceTextArr.length", sentenceTextArr.length + "");
+
+                Log.d("linearCount", linearCount + "");
+                Log.d("linearTextBox.length", linearTextBox.length + "");
+
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
-            } else {
+            } else if(linearCount < linearTextBox.length){
+                // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
+                Log.d("Else if", "else if");
                 textViewSum = 0;
                 linearCount++;
-            }
+            } else break;
 
         }
 
@@ -194,30 +214,32 @@ public class Sentence {
     }
 
     //colorIndex의 TextView의 글자색을 color로 바꿈. 인덱스 혼란을 줄이기 위해 첫번째 텍스트뷰는 1로 함.
-    public LinearLayout[] getTextLayout(String str, int fontDpSize, int colorIndex, String color, Context context, ViewGroup parent) {
+    public LinearLayout[] getTextLayout(String str, int fontDpSize, String effectStr, String color, Context context, ViewGroup parent) {
 
         int textViewTotalWidth = 0; // textView의 가로 길이의 총합
 
         setSentence(str);
 
         TextView[] sentenceTextArr = new TextView[sentenceArr.length];
-        for (int i = 0; i < sentenceTextArr.length; i++) {
+        for (int i = 0; i < sentenceArr.length; i++) {
 
             sentenceTextArr[i] = new TextView(context);
             sentenceTextArr[i].setText(sentenceArr[i]);
+            Log.d("sentence" + i, sentenceArr[i]);
             sentenceTextArr[i].setTextSize(TextUtil.dpToPixel(fontDpSize, context));
+            sentenceTextArr[i].setTextSize(35);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            params.setMargins(TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0);
+            params.setMargins((int) (fontDpSize * space), 0, (int) (fontDpSize * space), 0);
 
             sentenceTextArr[i].setLayoutParams(params);
             sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
             sentenceTextArr[i].setSingleLine();
 
-            if(i == (colorIndex -1)) {
+            if(sentenceTextArr[i].getText().toString().equals(effectStr)) {
                 try{
                     sentenceTextArr[i].setTextColor(Color.parseColor(color));
                 } catch(Exception e) {
@@ -229,20 +251,21 @@ public class Sentence {
 
             //부모 뷰에서 onDraw 하기 전에 길이를 알아오기 위함
             sentenceTextArr[i].measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            textViewTotalWidth += sentenceTextArr[i].getMeasuredWidth();
+            textViewTotalWidth += (sentenceTextArr[i].getMeasuredWidth() + fontDpSize * space * 2);
+            Log.d("getMeasuredWidth() " + i, sentenceTextArr[i].getMeasuredWidth() + "");
         }
 
         Log.d("TextViewTotalWidth", textViewTotalWidth + "");
         Log.d("parentWidth", parent.getWidth() + "");
-        Log.d("width/parent", textViewTotalWidth / parent.getWidth() + "");
+        Log.d("width/parent", (float)textViewTotalWidth / (float)parent.getWidth() + "");
 
         LinearLayout[] linearTextBox;
-        linearTextBox = new LinearLayout[textViewTotalWidth / parent.getWidth() + 2];
+        linearTextBox = new LinearLayout[textViewTotalWidth / parent.getWidth() + 2]; // effectStr로 인한 개행 추가
 
         for (int i = 0; i < linearTextBox.length; i++) {
             linearTextBox[i] = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context));
+            params.setMargins(0, (int) (fontDpSize * space), 0, (int) (fontDpSize * space));
             linearTextBox[i].setLayoutParams(params);
             linearTextBox[i].setOrientation(LinearLayout.HORIZONTAL);
         }
@@ -257,14 +280,29 @@ public class Sentence {
 
             //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
             // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
-            if (linearCount < linearTextBox.length && textViewCount < sentenceTextArr.length &&
-                    textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
+            if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - fontDpSize * sentenceTextArr.length * space * 2)) {
+
+                Log.d("IF", "if");
+
+                Log.d("textViewCount", textViewCount + "");
+                Log.d("sentenceTextArr.length", sentenceTextArr.length + "");
+
+                Log.d("linearCount", linearCount + "");
+                Log.d("linearTextBox.length", linearTextBox.length + "");
+
+                if(sentenceTextArr[textViewCount].getText().toString().equals(effectStr)){
+                    linearCount++;
+                    textViewSum = 0;
+                }
+
                 linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
-            } else {
+            } else if(linearCount < linearTextBox.length){
                 // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
+                Log.d("Else if", "else if");
                 textViewSum = 0;
                 linearCount++;
-            }
+            } else break;
 
         }
 
@@ -302,12 +340,13 @@ public class Sentence {
             sentenceTextArr[i] = new TextView(context);
             sentenceTextArr[i].setText(sentenceArr[i]);
             sentenceTextArr[i].setTextSize(TextUtil.dpToPixel(fontDpSize, context));
+            sentenceTextArr[i].setTextSize(35);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            params.setMargins(TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0);
+            params.setMargins((int) (fontDpSize * space), 0, (int) (fontDpSize * space), 0);
 
             sentenceTextArr[i].setLayoutParams(params);
             sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -326,7 +365,7 @@ public class Sentence {
 
             //부모 뷰에서 onDraw 하기 전에 길이를 알아오기 위함
             sentenceTextArr[i].measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-            textViewTotalWidth += sentenceTextArr[i].getMeasuredWidth();
+            textViewTotalWidth += (sentenceTextArr[i].getMeasuredWidth() + fontDpSize * space * 2);
         }
 
         Log.d("TextViewTotalWidth", textViewTotalWidth + "");
@@ -339,7 +378,7 @@ public class Sentence {
         for (int i = 0; i < linearTextBox.length; i++) {
             linearTextBox[i] = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, TextUtil.dpToPixel((int)(fontDpSize * space), context), 0, TextUtil.dpToPixel((int)(fontDpSize * space), context));
+            params.setMargins(0, (int) (fontDpSize * space), 0, (int) (fontDpSize * space));
 
             linearTextBox[i].setLayoutParams(params);
             linearTextBox[i].setVerticalGravity(Gravity.CENTER_VERTICAL);
@@ -357,22 +396,31 @@ public class Sentence {
 
             //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
             // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
-            if (textViewSum < (parent.getWidth() - TextUtil.dpToPixel((int)(fontDpSize * sentenceTextArr.length * space * 2), context))) {
+            if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
+                    textViewSum < (parent.getWidth() - fontDpSize * sentenceTextArr.length * space * 2)) {
 
                 if(sentenceTextArr[textViewCount].getText().toString().equals("{p}")){
                     sentenceTextArr[textViewCount] = null;
+
+                    Log.d("IF", "if");
+
+                    Log.d("textViewCount", textViewCount + "");
+                    Log.d("sentenceTextArr.length", sentenceTextArr.length + "");
+
+                    Log.d("linearCount", linearCount + "");
+                    Log.d("linearTextBox.length", linearTextBox.length + "");
+
                     linearTextBox[linearCount].addView(pickers);
                     textViewCount++;
 
-                } else {
-                    linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
-                }
+                } else linearTextBox[linearCount].addView(sentenceTextArr[textViewCount++]);
 
-            } else {
+            } else if(linearCount < linearTextBox.length){
                 // 클 경우에는 0으로 초기화시켜주고 다음 레이아웃으로 넘어감
+                Log.d("Else if", "else if");
                 textViewSum = 0;
                 linearCount++;
-            }
+            } else break;
 
         }
 
