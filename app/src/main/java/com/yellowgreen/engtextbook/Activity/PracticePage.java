@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.yellowgreen.engtextbook.R;
 import com.yellowgreen.engtextbook.Util.Sentence;
+import com.yellowgreen.engtextbook.Util.SoundManager;
 
 /**
  * Created by mapl0 on 2018-03-12.
@@ -34,7 +35,7 @@ public class PracticePage extends BaseActivity {
                 //띄어쓰기를 기준으로 TextView를 나누어서 부모뷰의 가로 길이에 맞게 동적으로 레이아웃 배열을 반환하여줌.
                 //글자크기와 컬러지정 가능
 
-                linArr = sen.getTextLayout("Tom plays the piano and Tim plays the harp", 35, "and", "#0000ff", myContext, contents);
+                linArr = sen.getTextLayout("i am a boy", 35, "and", "#0000ff", SoundManager.getInstance().iamaboy, myContext, contents);
 
 //                이렇게 사용할 수도 있음
 //                linArr = sen.getTextLayout("Tom plays the piano and Tim plays the harp", 35, myContext, contents);
@@ -50,6 +51,8 @@ public class PracticePage extends BaseActivity {
             }
         });
     }
+
+
 
     @Override
     public void setValues() {
