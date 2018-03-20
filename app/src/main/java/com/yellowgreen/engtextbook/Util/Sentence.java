@@ -84,7 +84,8 @@ public class Sentence {
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    params.setMargins((int) (fontSize * space), 0, (int) (fontSize * space), 0);
+//                    params.setMargins((int) (fontSize * space), 0, (int) (fontSize * space), 0);
+                    sentenceTextArr[i].setPadding((int) (fontSize * space), 0, (int) (fontSize * space), 0);
                     sentenceTextArr[i].setLayoutParams(params);
                     sentenceTextArr[i].setTextColor(Color.BLACK);
                     sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -122,7 +123,7 @@ public class Sentence {
                     //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
                     // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
                     if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
-                            textViewSum < (parent.getWidth() - fontSize * sentenceTextArr.length * space * 2)) {
+                            textViewSum < parent.getWidth()) {
                         Log.d("IF", "if");
 
                         Log.d("textViewCount", textViewCount + "");
@@ -172,7 +173,7 @@ public class Sentence {
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    params.setMargins((int) (fontSize * space), 0, (int) (fontSize * space), 0);
+                    sentenceTextArr[i].setPadding((int) (fontSize * space), 0, (int) (fontSize * space), 0);
                     sentenceTextArr[i].setLayoutParams(params);
                     sentenceTextArr[i].setTextColor(Color.BLACK);
                     sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -206,7 +207,7 @@ public class Sentence {
 
                     textViewSum += sentenceTextArr[textViewCount].getMeasuredWidth();
                     if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
-                            textViewSum < (parent.getWidth() - fontSize * sentenceTextArr.length * space * 2)) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
+                            textViewSum < parent.getWidth()) { // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
                         Log.d("IF", "if");
 
                         Log.d("textViewCount", textViewCount + "");
@@ -257,7 +258,7 @@ public class Sentence {
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    params.setMargins((int) (fontSize * space), 0, (int) (fontSize * space), 0);
+                    sentenceTextArr[i].setPadding((int) (fontSize * space), 0, (int) (fontSize * space), 0);
 
                     sentenceTextArr[i].setLayoutParams(params);
                     sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -374,7 +375,7 @@ public class Sentence {
                     //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
                     // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
                     if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
-                            textViewSum < (parent.getWidth() - fontSize * sentenceTextArr.length * space * 2)) {
+                            textViewSum < parent.getWidth()) {
 
                         Log.d("IF", "if");
 
@@ -447,7 +448,7 @@ public class Sentence {
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    params.setMargins((int) (fontSize * space), 0, (int) (fontSize * space), 0);
+                    sentenceTextArr[i].setPadding((int) (fontSize * space), 0, (int) (fontSize * space), 0);
 
                     sentenceTextArr[i].setLayoutParams(params);
                     sentenceTextArr[i].setTypeface(Typeface.DEFAULT_BOLD);
@@ -498,7 +499,7 @@ public class Sentence {
                     //텍스트뷰의 총합이 부모뷰의 가로보다 작을 경우에 addView 시켜준다.
                     // 폰트사이즈 * 텍스트뷰의 개수 * 공백 등분 * 단어 하나당 공백 두개가 들어가 있음
                     if (linearCount < linearTextBox.length && textViewCount <= sentenceTextArr.length &&
-                            textViewSum < (parent.getWidth() - fontSize * sentenceTextArr.length * space * 2)) {
+                            textViewSum < parent.getWidth()) {
 
                         if (sentenceTextArr[textViewCount].getText().toString().equals("{p}")) {
                             sentenceTextArr[textViewCount] = null;

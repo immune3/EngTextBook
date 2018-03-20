@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.media.MediaExtractor;
 import android.media.MediaPlayer;
 import android.support.annotation.RawRes;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.yellowgreen.engtextbook.R;
 
@@ -53,6 +55,7 @@ public class SoundManager {
             player = MediaPlayer.create(context, res);
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
     }
