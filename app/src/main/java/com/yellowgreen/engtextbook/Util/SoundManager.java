@@ -35,7 +35,7 @@ public class SoundManager {
         iamaboy = new int[5];
         iamaboy[0] = R.raw.i;
         iamaboy[1] = R.raw.am;
-        iamaboy[2] = -1;
+        iamaboy[2] = -1; // -1은 음성파일이 없는 단어를 의미
         iamaboy[3] = R.raw.boy;
         iamaboy[4] = R.raw.iamaboy;
     }

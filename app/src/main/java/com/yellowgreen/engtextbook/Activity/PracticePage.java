@@ -35,18 +35,18 @@ public class PracticePage extends BaseActivity {
                 //띄어쓰기를 기준으로 TextView를 나누어서 부모뷰의 가로 길이에 맞게 동적으로 레이아웃 배열을 반환하여줌.
                 //글자크기와 컬러지정 가능
 
-                linArr = sen.getTextLayout("i am a boy", 35, "and", "#0000ff", SoundManager.getInstance().iamaboy, myContext, contents);
+                sen.addTextLayout("i am a boy", 35, "and", "#0000ff", SoundManager.getInstance().iamaboy, myContext, contents);
 
 //                이렇게 사용할 수도 있음
-//                linArr = sen.getTextLayout("Tom plays the piano and Tim plays the harp", 35, myContext, contents);
-//                linArr = sen.getTextLayout("Tom plays the piano and Tim plays the harp", myContext, contents);
+//                linArr = sen.addTextLayout("Tom plays the piano and Tim plays the harp", 35, myContext, contents);
+//                linArr = sen.addTextLayout("Tom plays the piano and Tim plays the harp", myContext, contents);
 
 //                String Picker Get Text 예상 사용법
 //                문장 / {p} 부분에 들어갈 배열 / 글자크기 / 컬러지정 인덱스 / 색깔 / 컨텍스트 / 부모뷰
 
-//                linArr = sen.getTextLayout("Kate is from {p}", new String[]{"London", "Canada", "England", "Korea", "China"} , sen.getAutoFontSize(contents), 5, "#0000ff", myContext, contents);
+//                linArr = sen.addTextLayout("Kate is from {p}", new String[]{"London", "Canada", "England", "Korea", "China"} , sen.getAutoFontSize(contents), 5, "#0000ff", myContext, contents);
 
-                addSentenceLayout(linArr);
+//                addSentenceLayout(linArr);
 
             }
         });
